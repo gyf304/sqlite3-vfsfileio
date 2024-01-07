@@ -1,0 +1,5 @@
+*.dylib
+*.dSYM
+.vscode
+test.sql.*
+test.txt
