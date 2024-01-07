@@ -201,12 +201,12 @@ end:
 static int vfsFileIoInit(sqlite3 *db) {
 	int rc = SQLITE_OK;
 
-	rc = sqlite3_create_function(db, "vfsreadfile", -1, SQLITE_UTF8, NULL, readfileFunc, NULL, NULL);
+	rc = sqlite3_create_function(db, "vfsreadfile", -1, SQLITE_UTF8|SQLITE_DETERMINISTIC, NULL, readfileFunc, NULL, NULL);
 	if (rc != SQLITE_OK) {
 		return rc;
 	}
 
-	rc = sqlite3_create_function(db, "vfswritefile", -1, SQLITE_UTF8|SQLITE_DIRECTONLY|SQLITE_DETERMINISTIC, NULL, writefileFunc, NULL, NULL);
+	rc = sqlite3_create_function(db, "vfswritefile", -1, SQLITE_UTF8|SQLITE_DIRECTONLY, NULL, writefileFunc, NULL, NULL);
 	if (rc != SQLITE_OK) {
 		return rc;
 	}
