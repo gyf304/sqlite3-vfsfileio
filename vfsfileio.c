@@ -64,7 +64,11 @@ static void readfileFunc(
 
 	rc = vfs->xOpen(vfs, zFilename, pFile, SQLITE_OPEN_READONLY, NULL);
 	if (rc != SQLITE_OK) {
-		sqlite3_result_error(context, "vfsreadfile() cannot open file", -1);
+		if (rc == SQLITE_CANTOPEN) {
+			sqlite3_result_null(context);
+			return;
+		}
+		sqlite3_result_error_code(context, rc);
 		return;
 	}
 
