@@ -1,5 +1,5 @@
 EXT = .so
-CFLAGS ?= -Wall -Wextra -Werror
+CFLAGS ?= -Os -Wall -Wextra -Werror -Wpedantic -Wconversion
 
 ifeq ($(OS),Windows_NT)
 	EXT = .dll
@@ -20,7 +20,7 @@ clean:
 	rm -f test.sql.*
 
 vfsfileio$(EXT): vfsfileio.c
-	$(CC) $(CFLAGS) -g -shared -fPIC -o $@ $<
+	$(CC) $(CFLAGS) -shared -fPIC -o $@ $<
 
 test.sql.expected: test.sql
 	sed -rn 's/.*-- expected: (.*)$$/\1/p' $< > $@

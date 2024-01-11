@@ -81,24 +81,29 @@ static void readfileFunc(
 		goto end;
 	}
 
+	if (size < 0) {
+		sqlite3_result_error(context, "vfsreadfile() cannot get file size", -1);
+		goto end;
+	}
+
 	if (size > mxBlob) {
 		sqlite3_result_error_toobig(context);
 		goto end;
 	}
 
-	blob = sqlite3_malloc(size);
+	blob = sqlite3_malloc((int)size);
 	if (blob == NULL) {
 		sqlite3_result_error_nomem(context);
 		goto end;
 	}
 
-	rc = pFile->pMethods->xRead(pFile, blob, size, 0);
+	rc = pFile->pMethods->xRead(pFile, blob, (int)size, 0);
 	if (rc != SQLITE_OK) {
 		sqlite3_result_error_code(context, rc);
 		goto end;
 	}
 
-	sqlite3_result_blob64(context, blob, size, sqlite3_free);
+	sqlite3_result_blob64(context, blob, (sqlite3_uint64)size, sqlite3_free);
 end:
 	if (pFile != NULL) {
 		pFile->pMethods->xClose(pFile);
