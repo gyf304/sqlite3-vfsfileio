@@ -1,14 +1,16 @@
-EXT = .so
 CFLAGS ?= -Os -Wall -Wextra -Werror -Wpedantic -Wconversion
 
+OSEXT = .so
 ifeq ($(OS),Windows_NT)
-	EXT = .dll
+	OSEXT = .dll
 else
 	UNAME_S := $(shell uname -s)
 	ifeq ($(UNAME_S),Darwin)
-		EXT = .dylib
+		OSEXT = .dylib
 	endif
 endif
+
+EXT ?= $(OSEXT)
 
 .PHONY: all clean test
 
