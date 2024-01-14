@@ -12,6 +12,11 @@
 
 #include <stddef.h>
 #include "sqlite3ext.h"
+
+#ifndef SQLITE_PRIVATE
+#define SQLITE_PRIVATE static
+#endif
+
 SQLITE_EXTENSION_INIT1
 
 static void readfileFunc(
@@ -229,7 +234,7 @@ int sqlite3_vfsfileio_init(sqlite3 *db, char **pzErrMsg, const sqlite3_api_routi
 	return vfsFileIoInit(db);
 }
 #else
-int sqlite3VfsFileIoInit(sqlite3 *db) {
+SQLITE_PRIVATE int sqlite3VfsFileIoInit(sqlite3 *db) {
 	return vfsFileIoInit(db);
 }
 #endif
